@@ -98,15 +98,49 @@ form#f h2{margin:0 0 4px;color:var(--maroon);font-size:1.15rem}
 .bar a{background:var(--gold);color:var(--maroon);font-weight:800;text-decoration:none;padding:10px 16px;border-radius:10px;white-space:nowrap}
 .bar a:focus-visible{outline:3px solid #fff;outline-offset:2px}
 @media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+
+/* Site header – same look as sriannamalaipyropark.wordpress.com */
+.site-hd{margin-inline:calc(-1 * max(16px, env(safe-area-inset-left, 0px)));font-family:"Noto Sans Tamil","Latha","Nirmala UI",system-ui,sans-serif}
+.site-hd .strip{height:8px;background:linear-gradient(90deg,#e6007e,#ff6f00,#ffd600,#00a651,#2979ff)}
+.site-hd .bar{background:#800000;padding:10px max(20px, env(safe-area-inset-right, 0px)) 10px max(20px, env(safe-area-inset-left, 0px))}
+.site-hd .in{max-width:1100px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:10px 28px}
+.site-hd .brand{display:flex;align-items:center;gap:12px;text-decoration:none}
+.site-hd .brand img{width:72px;height:72px;border-radius:50%;border:2px solid #ffd600;display:block;background:#fff}
+.site-hd .brand span{color:#ffd600;font-weight:700;font-size:1.25rem;line-height:1.3}
+.site-hd nav{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:6px 22px}
+.site-hd nav a{color:#fff;text-decoration:none;font-size:1rem}
+.site-hd nav a:hover{text-decoration:underline}
+.site-hd nav a.order{background:#ffd600;color:#800000;font-weight:800;padding:10px 22px;border-radius:6px;box-shadow:0 0 0 3px rgba(255,214,0,.35)}
+.site-hd nav a.order:hover{text-decoration:none;filter:brightness(1.05)}
+.site-hd a:focus-visible{outline:3px solid #fff;outline-offset:3px}
+@media (max-width:560px){.site-hd .brand span{font-size:1.05rem}.site-hd .brand img{width:60px;height:60px}}
+/* slim title under the header (replaces the old big maroon header) */
+.page-title{padding:16px 0 4px;text-align:center}
+.page-title h1{margin:0;font-size:1.3rem;font-weight:800;color:#800000}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .page-title h1{color:#ffd600}}
+:root[data-theme="dark"] .page-title h1{color:#ffd600}
+.page-title .badge{margin-top:8px}
+  
 </style>
 
 <div class="wrap">
-<header class="top"><div class="in">
-  <h1>ARP in ஸ்ரீ அண்ணாமலை பைரோ பார்க்<br>ஆர்டர் பட்டியல்</h1>
-  <p>சாத்தூர் – சிவகாசி | தமிழ்நாடு முழுவதும் பாதுகாப்பான ஃப்ரைட் டெலிவரி</p>
-  <span class="badge">85% OFF | 85% தள்ளுபடி விலையில்</span>
-</div></header>
 
+<header class="site-hd">
+  <div class="strip"></div>
+  <div class="bar"><div class="in">
+    <a class="brand" href="https://sriannamalaipyropark.wordpress.com/">
+      <img src="https://sriannamalaipyropark.wordpress.com/wp-content/uploads/2026/10/logo_1-1.png" alt="ARP in Shri Annamalai Pyro Park" width="72" height="72">
+      <span>ARP in ஸ்ரீ அண்ணாமலை பைரோ பார்க்</span>
+    </a>
+    <nav aria-label="Main">
+      <a href="https://sriannamalaipyropark.wordpress.com/about/">About</a>
+      <a href="https://sriannamalaipyropark.wordpress.com/">Home</a>
+      <a href="https://sriannamalaipyropark.wordpress.com/price-catalog/">விலைப்பட்டியல் | Price List</a>
+      <a class="order" href="https://gr8maheshkumar.github.io/order-form/" aria-current="page">Order Online</a>
+    </nav>
+  </div></div>
+</header>
+  
 <div class="tools">
   <input type="search" id="q" placeholder="பெயர் அல்லது வரிசை எண்ணைத் தேடுங்கள் (எ.கா. 38 அல்லது பென்சில்)" aria-label="தேடுங்கள்" autocomplete="off">
   <nav class="chips" id="chips" aria-label="வகைகள்"></nav>
