@@ -1,0 +1,449 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>ARP ஆர்டர் பட்டியல்</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Tamil:wght@400;600;800&display=swap">
+<style>
+/* Layout: sticky maroon header + search, category sections of product rows with quantity steppers, fixed total bar, order form at the end. */
+:root{
+  --bg:#fff8e1; --surface:#ffffff; --fg:#3b0a0a; --muted:#7a5a4a; --line:#ecd9b0;
+  --maroon:#800000; --gold:#ffd600; --pink:#c2185b; --green:#00873e; --wa:#25d366; --wa-ink:#073b1c;
+  --row-alt:#fffbea; --bar:#800000; --bar-fg:#fff3b0; --on-maroon:#ffffff;
+  --font:"Noto Sans Tamil","Latha","Nirmala UI",system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#1d0a0a; --surface:#2a1212; --fg:#fbe9d0; --muted:#c9a58c; --line:#4a2626;
+  --row-alt:#311616; --bar:#4a0a0a; --bar-fg:#ffe082; color-scheme:dark;}}
+:root[data-theme="dark"]{
+  --bg:#1d0a0a; --surface:#2a1212; --fg:#fbe9d0; --muted:#c9a58c; --line:#4a2626;
+  --row-alt:#311616; --bar:#4a0a0a; --bar-fg:#ffe082; color-scheme:dark;}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--font);font-size:15px;line-height:1.55;
+  padding-inline:max(16px,env(safe-area-inset-left,0px)) max(16px,env(safe-area-inset-right,0px));padding-block:0 96px}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--maroon)}
+.wrap{max-width:860px;margin:0 auto}
+header.top{background:var(--maroon);color:var(--on-maroon);margin-inline:calc(-1*max(16px,env(safe-area-inset-left,0px)));
+  padding:18px max(16px,env(safe-area-inset-right,0px)) 14px max(16px,env(safe-area-inset-left,0px));border-bottom:4px solid var(--gold)}
+header.top .in{max-width:860px;margin:0 auto}
+h1{margin:0;font-size:1.35rem;font-weight:800;color:var(--gold);text-wrap:balance;line-height:1.35}
+header.top p{margin:4px 0 0;font-size:.9rem;color:#ffe9b0}
+.badge{display:inline-block;margin-top:10px;background:var(--gold);color:var(--maroon);font-weight:800;border-radius:999px;padding:3px 14px;font-size:.9rem}
+.tools{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding:10px 0 8px;border-bottom:1px solid var(--line)}
+.tools input[type=search]{width:100%;padding:11px 14px;border:2px solid var(--line);border-radius:10px;background:var(--surface);color:var(--fg);font:inherit}
+.tools input:focus,.field input:focus,.field select:focus,.field textarea:focus{outline:3px solid var(--pink);outline-offset:1px}
+.chips{display:flex;gap:6px;overflow-x:auto;padding:8px 0 2px;scrollbar-width:thin}
+.chips a{flex:none;text-decoration:none;color:var(--maroon);background:var(--gold);border-radius:999px;padding:3px 12px;font-size:.82rem;font-weight:600}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .chips a{color:#3b0a0a}}
+:root[data-theme="dark"] .chips a{color:#3b0a0a}
+.note{margin:14px 0 0;padding:10px 14px;border-radius:10px;background:var(--surface);border:1px solid var(--line);font-size:.88rem;color:var(--muted)}
+section.cat{margin-top:22px}
+section.cat h2{margin:0;padding:9px 14px;background:var(--maroon);color:#fff3b0;border-radius:10px 10px 0 0;font-size:1rem;font-weight:800;scroll-margin-top:120px}
+section.cat h2 small{font-weight:400;opacity:.85;margin-left:6px}
+.list{border:1px solid var(--line);border-top:0;border-radius:0 0 10px 10px;overflow:hidden}
+.row{display:grid;grid-template-columns:2.6rem minmax(0,1fr) auto;gap:4px 10px;align-items:center;padding:10px 12px;background:var(--surface);border-top:1px solid var(--line)}
+.row:first-child{border-top:0}
+.row:nth-child(even){background:var(--row-alt)}
+.row.has{box-shadow:inset 4px 0 0 var(--green)}
+.sl{font-weight:800;color:var(--pink);text-align:center;font-variant-numeric:tabular-nums}
+.nm{min-width:0}
+.nm b{display:block;font-weight:600;overflow-wrap:anywhere}
+.nm span{display:block;color:var(--muted);font-size:.85rem;overflow-wrap:anywhere}
+.pr{font-variant-numeric:tabular-nums;font-size:.9rem;margin-top:2px}
+.pr del{color:var(--muted);margin-right:6px}
+.pr strong{color:var(--green);font-size:1.05rem}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .pr strong{color:#5fd68c}}
+:root[data-theme="dark"] .pr strong{color:#5fd68c}
+.step{display:flex;align-items:center;gap:0;border:2px solid var(--maroon);border-radius:10px;overflow:hidden;background:var(--surface)}
+.step button{width:38px;height:38px;border:0;background:var(--maroon);color:#fff;font-size:1.3rem;font-weight:800;cursor:pointer;font-family:inherit}
+.step button:focus-visible{outline:3px solid var(--gold);outline-offset:-3px}
+.step input{width:46px;height:38px;border:0;text-align:center;font:inherit;font-weight:800;background:transparent;color:var(--fg);-moz-appearance:textfield;font-variant-numeric:tabular-nums}
+.step input::-webkit-outer-spin-button,.step input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.line{grid-column:2 / 4;text-align:right;font-size:.85rem;color:var(--muted);min-height:1.2em;font-variant-numeric:tabular-nums}
+.line b{color:var(--fg)}
+@media (min-width:640px){
+  .row{grid-template-columns:3rem minmax(0,1fr) 9rem auto;}
+  .line{grid-column:auto;min-width:6rem}
+}
+.empty{padding:30px 10px;text-align:center;color:var(--muted)}
+form#f{margin-top:30px;background:var(--surface);border:2px solid var(--maroon);border-radius:14px;padding:18px max(14px,2vw)}
+form#f h2{margin:0 0 4px;color:var(--maroon);font-size:1.15rem}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) form#f h2{color:var(--gold)}}
+:root[data-theme="dark"] form#f h2{color:var(--gold)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:12px}
+.field{display:flex;flex-direction:column;gap:4px;min-width:0}
+.field label{font-weight:600;font-size:.88rem}
+.field input,.field select,.field textarea{padding:10px 12px;border:2px solid var(--line);border-radius:10px;background:var(--bg);color:var(--fg);font:inherit;width:100%}
+.field.full{grid-column:1/-1}
+.sum{margin-top:16px;border:1px dashed var(--maroon);border-radius:10px;padding:10px 14px;font-size:.9rem}
+.sum ul{margin:6px 0;padding-left:18px}
+.sum li{overflow-wrap:anywhere}
+.tot{display:flex;justify-content:space-between;gap:10px;font-weight:800;font-size:1.1rem;border-top:1px solid var(--line);padding-top:8px;margin-top:6px;font-variant-numeric:tabular-nums}
+.acts{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:13px 20px;border-radius:12px;font:inherit;font-weight:800;text-decoration:none;border:0;cursor:pointer;text-align:center}
+.btn.wa{background:var(--wa);color:var(--wa-ink);flex:1 1 240px}
+.btn.wa[aria-disabled="true"]{opacity:.45;cursor:not-allowed}
+.btn.alt{background:transparent;color:var(--fg);border:2px solid var(--line)}
+.btn:focus-visible{outline:3px solid var(--pink);outline-offset:2px}
+.hint{font-size:.82rem;color:var(--muted);margin-top:8px}
+.err{color:#c62828;font-weight:600;font-size:.88rem;min-height:1.2em;margin-top:8px}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .err{color:#ff8a80}}
+:root[data-theme="dark"] .err{color:#ff8a80}
+.contacts{margin-top:26px;padding:16px;border-radius:12px;background:var(--green);color:#fff;text-align:center;font-size:.92rem}
+.contacts b{color:var(--gold)}
+.bar{position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--bar);color:var(--bar-fg);
+  padding:10px max(16px,env(safe-area-inset-right,0px)) calc(10px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));border-top:3px solid var(--gold)}
+.bar .in{max-width:860px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.bar .t{font-variant-numeric:tabular-nums;line-height:1.25}
+.bar .t small{display:block;font-size:.78rem;opacity:.9}
+.bar .t strong{font-size:1.25rem;color:#fff}
+.bar a{background:var(--gold);color:var(--maroon);font-weight:800;text-decoration:none;padding:10px 16px;border-radius:10px;white-space:nowrap}
+.bar a:focus-visible{outline:3px solid #fff;outline-offset:2px}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+</style>
+
+<div class="wrap">
+<header class="top"><div class="in">
+  <h1>ARP in ஸ்ரீ அண்ணாமலை பைரோ பார்க்<br>ஆர்டர் பட்டியல்</h1>
+  <p>சாத்தூர் – சிவகாசி | தமிழ்நாடு முழுவதும் பாதுகாப்பான ஃப்ரைட் டெலிவரி</p>
+  <span class="badge">85% OFF | 85% தள்ளுபடி விலையில்</span>
+</div></header>
+
+<div class="tools">
+  <input type="search" id="q" placeholder="பெயர் அல்லது வரிசை எண்ணைத் தேடுங்கள் (எ.கா. 38 அல்லது பென்சில்)" aria-label="தேடுங்கள்" autocomplete="off">
+  <nav class="chips" id="chips" aria-label="வகைகள்"></nav>
+</div>
+
+<p class="note">தேவையான எண்ணிக்கையைத் தேர்வு செய்யுங்கள். கூட்டுத்தொகை தானாகக் கணக்கிடப்படும். கடைசியில் உங்கள் விவரங்களை நிரப்பி, ஆர்டர் பட்டியலை WhatsApp-ல் அனுப்புங்கள். பணம் செலுத்திய உறுதிப்படுத்தலுக்குப் பிறகே ஆர்டர் அனுப்பப்படும். டெலிவரி தமிழ்நாட்டிற்குள் மட்டும். இந்தப் பக்கம் 21 வயது மற்றும் அதற்கு மேற்பட்டோருக்கு மட்டும்.</p>
+
+<main id="catalog"></main>
+
+<form id="f" novalidate>
+  <h2>உங்கள் ஆர்டர் பட்டியலை அனுப்ப</h2>
+  <div class="grid">
+    <div class="field"><label for="nm">பெயர் *</label><input id="nm" autocomplete="name" required></div>
+    <div class="field"><label for="ph">உங்கள் மொபைல் எண் *</label><input id="ph" inputmode="numeric" autocomplete="tel" maxlength="14" placeholder="10 இலக்க எண்"></div>
+    <div class="field"><label for="ct">ஊர் / மாவட்டம் (தமிழ்நாடு) *</label><input id="ct" autocomplete="address-level2"></div>
+    <div class="field"><label for="pin">பின்கோடு</label><input id="pin" inputmode="numeric" maxlength="6" autocomplete="postal-code"></div>
+    <div class="field full"><label for="ad">டெலிவரி முகவரி</label><textarea id="ad" rows="2" autocomplete="street-address"></textarea></div>
+    <div class="field full"><label for="nt">குறிப்பு (விரும்பினால்)</label><input id="nt"></div>
+  </div>
+  <label style="display:flex;gap:8px;margin-top:14px;align-items:flex-start;font-size:.9rem"><input type="checkbox" id="age" style="margin-top:5px"> நான் 21 வயது அல்லது அதற்கு மேற்பட்டவர்; தமிழ்நாட்டிற்குள் டெலிவரி பெற விரும்புகிறேன்.</label>
+
+  <div class="sum" id="sum" aria-live="polite"></div>
+  <div class="err" id="err" role="alert"></div>
+  <div class="acts">
+    <a class="btn wa" id="send" href="#" target="_blank" rel="noopener" aria-disabled="true">WhatsApp-ல் ஆர்டர் பட்டியலை அனுப்புங்கள்</a>
+    <button type="button" class="btn alt" id="copy">செய்தியை நகலெடு</button>
+    <button type="button" class="btn alt" id="clear">அனைத்தையும் அழி</button>
+  </div>
+  <p class="hint">இந்தப் பொத்தான் WhatsApp-ஐத் திறந்து, உங்கள் ஆர்டர் பட்டியலை எங்கள் எண்ணுக்கு (97886 73660) தயாராக எழுதி வைக்கும். WhatsApp-ல் "Send" அழுத்தினால் மட்டுமே எங்களுக்குச் சென்றடையும். ஆன்லைன் பணம் செலுத்துதல் இந்தப் பக்கத்தில் இல்லை; இறுதித் தொகை மற்றும் பணம் செலுத்தும் விவரங்கள் WhatsApp-ல் உறுதிப்படுத்தப்படும்.</p>
+</form>
+
+<div class="contacts">
+  <b>For Order, Please contact us at</b><br>94421 48382 / 98421 48382 / 97886 73660 / 99943 59825<br>
+  சாத்தூர் சிவகாசி மெயின் ரோடு, ஸ்ரீராம் நகர், மேட்டமலை கிராமம், சாத்தூர் – 626 203, தமிழ்நாடு | GSTIN: 33ABRFA9558R1ZC
+</div>
+</div>
+
+<div class="bar"><div class="in">
+  <div class="t"><small id="bcount">0 பொருட்கள்</small><strong id="btotal">₹0</strong></div>
+  <a href="#f">ஆர்டர் பட்டியலை அனுப்ப</a>
+</div></div>
+
+<script>
+const WA = "919788673660";
+/* [sl, English, Tamil, unit, MRP (null = net rate), price] */
+const CATS = [
+ {id:"c1", ta:"ஒன் சவுண்ட் வெடிகள்", en:"One Sound", off:true, items:[
+  [1,"Gold Lakshmi","கோல்டு லட்சுமி","Pkt",200,30],
+  [2,"2¾\" Kuruvi Crackers","2¾\" குருவி","Pkt",60,9],
+  [3,"3½\" Lakshmi","3½\" லட்சுமி","Pkt",87,13],
+  [4,"4\" Lakshmi","4\" லட்சுமி","Pkt",127,19],
+  [5,"4\" Deluxe Lakshmi","4\" டீலக்ஸ் லட்சுமி","Pkt",190,28],
+  [6,"Two Sound Crackers","2\" சவுண்ட்","Pkt",235,35],
+  [7,"Jallikattu","ஜல்லிகட்டு","Pkt",335,50],
+  [8,"Bahubali","பாகுபலி","Pkt",300,45],
+  [9,"Kumki","6\" கும்கி","Pkt",370,55]]},
+ {id:"c2", ta:"பிஜிலி வெடிகள்", en:"Bijili", off:true, items:[
+  [10,"Red Bijili (50 Pcs)","சிவப்பு பிஜிலி (50 பீஸ்)","Bag",115,17],
+  [11,"Stripped Bijili (50 Pcs)","கோடு பிஜிலி (50 பீஸ்)","Bag",120,18],
+  [12,"Gold Red Bijili (100 Pcs)","கோல்டு சிவப்பு பிஜிலி","Bag",255,35],
+  [13,"Stripped Bijili (100 Pcs)","கோடு பிஜிலி (100 பீஸ்)","Bag",253,38]]},
+ {id:"c3", ta:"தரைச் சக்கரம்", en:"Ground Chakkar", off:true, items:[
+  [14,"Ground Chakkar Big (10 Pcs)","தரைச்சக்கரம் பிக் (10 பீசஸ்)","Box",230,34],
+  [15,"Ground Chakkar Special","தரைச்சக்கரம் ஸ்பெஷல்","Box",432,65],
+  [16,"Ground Chakkar Delux","தரைச்சக்கரம் டீலக்ஸ்","Box",870,130],
+  [17,"Spinner Deluxe Window","ஸ்பின்னர் டீலக்ஸ் விண்டோ","Box",1334,200],
+  [18,"Disco Wheel (5 Pcs)","டிஸ்கோ வீல் (5 பீஸ்)","Box",335,50],
+  [19,"Disco Wheel (10 Pcs)","டிஸ்கோ வீல் (10 பீஸ்)","Box",670,100]]},
+ {id:"c4", ta:"பூச்சட்டி", en:"Flower Pots", off:true, items:[
+  [20,"Flower Pots Small","பூச்சட்டி சுமால்","Box",335,50],
+  [21,"Flower Pots Big","பூச்சட்டி பிக்","Box",440,65],
+  [22,"Flower Pots Special","பூச்சட்டி ஸ்பெஷல்","Box",500,75],
+  [23,"Flower Pots Ashoka","பூச்சட்டி அசோகா","Box",660,100],
+  [24,"Flower Pots Deluxe (5 Pcs)","பூச்சட்டி டீலக்ஸ் (5 பீஸ்)","Box",1225,185],
+  [25,"Flower Pots Super Dlx. (5 Pcs)","பூச்சட்டி சூப்பர் டீலக்ஸ் (5 பீஸ்)","Box",1333,200],
+  [26,"Colour Koti","கலர் கோட்டி","Box",1330,200],
+  [27,"Colour Koti Deluxe","கலர் கோட்டி டீலக்ஸ்","Box",2681,400],
+  [28,"Colour Koti Jumbo","கலர் கோட்டி ஜம்போ","Box",2920,445],
+  [29,"Ganga Yamuna","கங்கா ஜமுனா","Box",870,130]]},
+ {id:"c5", ta:"சாட்டை வகைகள்", en:"Twinkling Star", off:true, items:[
+  [30,"1½\" Twinkling Star","1½\" சாட்டை","Box",170,25],
+  [31,"4\" Twinkling Star","4\" சாட்டை","Box",500,75]]},
+ {id:"c6", ta:"பென்சில் வகைகள்", en:"Pencil", off:true, items:[
+  [32,"7\" Pencil","7\" பென்சில்","Box",195,30],
+  [33,"10\" Pencil","10 பென்சில்","Box",398,60],
+  [34,"12\" Pencil Silver","12\" பென்சில் சில்வர்","Box",600,90],
+  [35,"Trafic Master (3 Pcs)","டிராபிக் மாஸ்டர் (3 பீஸ்)","Box",570,85],
+  [36,"Free Fire Gun (2 Pcs)","ப்ரீ பயர் கன் (2 பீஸ்)","Box",1320,200],
+  [37,"Croods","க்ரூட்ஸ்","Box",1163,175],
+  [38,"Drown","ட்ரோன்","Box",1005,150],
+  [39,"Helicopter","ஹெலிக்காப்டர்","Box",1100,165]]},
+ {id:"c7", ta:"கிட்ஸ் வகைகள்", en:"Kids Varieties", off:true, items:[
+  [40,"Assorted Carttons (10 Pcs)","அசார்ட் கார்டூன் (10 பீஸ்)","Box",167,25],
+  [41,"Snake Carttons (10 Pcs)","பாம்பு கார்டூன் (10 பீஸ்)","Box",198,30],
+  [42,"Electric Stone","எலெட்ரிக் ஸ்டோன்","Box",80,12],
+  [43,"Magic Pop","மேஜிக் பாப்ஸ்","Box",87,13],
+  [44,"Kit Kat","கிட் காட்","Box",201,30],
+  [45,"Cikky Mukky (10 Pcs)","சிக்கி முக்கி","Box",464,70],
+  [46,"Chalsa Dance","சல்ஷா டான்ஸ்","Box",230,35]]},
+ {id:"c8", ta:"அணுகுண்டு", en:"Bomb", off:true, items:[
+  [47,"Super Bomb","சூப்பர் பாம்","Box",349,53],
+  [48,"Meha Bomb","மெகா பாம்","Box",1595,245],
+  [49,"Hydro Bomb","ஹைட்ரோ பாம்","Box",478,75],
+  [50,"King of King","கிங் ஆப் கிங்","Box",659,99],
+  [51,"Classic Bomb","கிளாசிக் பாம்","Box",897,135],
+  [52,"Jurassic Bomb","ஜுராசிக் பாம்","Box",1329,200],
+  [53,"555 Bomb","555 பாம்","Box",801,120],
+  [54,"Paper Bomb Mini","பேப்பர் பாம் மினி","Box",333,50],
+  [55,"Paper Bomb Medium","பேப்பர் பாம் மீடியம்","Box",665,100],
+  [56,"Paper Bomb Mega","பேப்பர் பாம் மெகா","Box",1730,200]]},
+ {id:"c9", ta:"ராக்கெட்", en:"Rocket", off:true, items:[
+  [57,"Rocket Bomb","ராக்கெட் பாம்","Box",335,50],
+  [58,"2 Sound Rocket","2 சவுண்ட் ராக்கெட்","Box",735,110],
+  [59,"Lunik Rocket","லூனிக் ராக்கெட்","Box",800,120],
+  [60,"Wisling Rocket","விசிலிங் ராக்கெட்","Box",1270,190]]},
+ {id:"c10", ta:"பவுண்டன்ஸ்", en:"Fountains", off:true, items:[
+  [61,"Feather Pops (5 pcs)","பெதர் பாப்ஸ்","Box",765,115],
+  [62,"Pogo Mixing Colour (5 Pcs)","போகோ மிக்ஸிங் கலர்","Box",1127,170],
+  [63,"Angry Bird (5 Pcs, 5 Colour)","ஆங்கிரி பேர்டு (5 பீஸ்)","Box",1733,270],
+  [64,"Selfy Stick (5 Pcs)","செல்பி ஸ்டிக் (5 பீஸ்)","Box",1050,150],
+  [65,"Mini Siren (5 Pcs)","மினி சைரன் (5 பீஸ்)","Box",1098,165],
+  [66,"Meha Siren (3 Pcs)","மெகா சைரன் (3 பீஸ்)","Box",1330,200],
+  [67,"Dancing Butterfly","டான்சிங் பட்டர்ப்ளை","Box",670,100],
+  [68,"Tri Colour Fountain (5 Pcs)","டிரை கலர் பவுண்டேன் (5 பீஸ்)","Box",1898,285],
+  [69,"Peacock Multi Color","பீகாக் மல்டி கலர்","Box",1193,180],
+  [70,"Pada Peacock Multi Color","மெஹா பீக்காக் மல்டி கலர்","Box",2603,390],
+  [71,"Appu Touchmi Falls","அப்பு டச்மி பால்ஸ்","Box",1145,170],
+  [72,"Crackling King","க்ராக்லிங் கிங்","Box",1529,230],
+  [73,"Colour Smoke","கலர் ஸ்மோக்","Box",833,125],
+  [74,"Spinning Top","ஸ்பின்னிங் டாப்","Box",832,125],
+  [75,"Rainbow Fountain","ரெயின்போ பவுண்டேன்","Box",1643,250],
+  [76,"Reani Saini Tik Tak Beli Jelly Carck Jack","ரெயினி சைனி, டிக்டாக், பெல்லி ஜெல்லி, க்ராக் ஜக்","Box",1398,210],
+  [77,"Power Pot (Green, Red, Blue, Gold Mix Butterfly)","பவர் பாட்","Box",1498,225],
+  [78,"Star Show","ஸ்டார் ஷோ கிராக்லிங்","Box",1198,180],
+  [79,"Photo Flash (5 Pcs)","போட்டோ பிளாஷ் (5 பீஸ்)","Box",465,70],
+  [80,"Tin Bear Fountain","டின் பீர் பவுண்டேன்","Box",600,90],
+  [81,"Master Fountain","மாஸ்டர் பவுண்டேன்","Box",735,110],
+  [82,"Money Bank (2 Pcs)","மணி பேங்க்","Box",1500,200],
+  [83,"Lolly Pop","லாலிபாப்","Box",1498,225],
+  [84,"Bat","பேட் & பால்","Box",1665,250],
+  [85,"Mini Peacock","மினி பீக்காக்","Box",735,110],
+  [86,"Holi Colour Fountain","கோலி கலர்","Box",1330,200]]},
+ {id:"c11", ta:"ஏரியல் பேன்சி", en:"Aerial Fancy", off:true, items:[
+  [87,"7 Shots (5 Pcs)","7 ஷாட்","Box",835,125],
+  [88,"Sky Vala (6 Pcs)","ஸ்கை வாலா","Box",865,130],
+  [89,"Golden Sun (5 Pcs)","கோல்டன் சன்","Box",1163,175],
+  [90,"2¼\" Facny (3 Pcs)","2¼\" பேன்சி (3 பீஸ்)","Box",2500,350],
+  [91,"Chotta Fancy","சோட்டா பேன்சி","Box",433,65],
+  [92,"2½\" Facny","2½\" பேன்சி","Box",674,100],
+  [93,"2½\" Fancy (2 Pcs)","2½\" பேன்சி (2 பீஸ்)","Box",1803,270],
+  [94,"3½\" Fancy","3½\" பேன்சி","Box",1998,300],
+  [95,"3½\" Fancy (2 Pcs)","3½\" பேன்சி (2 பீஸ்)","Box",3998,600],
+  [96,"3½\" Fancy (2 Function)","3½\" பேன்சி (2 பங்சன்)","Box",2531,380],
+  [97,"3½\" Fancy (7 Step)","3½\" பேன்சி (7 ஸ்டெப்)","Box",2330,350],
+  [98,"4\" Fancy","4½\" பேன்சி சிங்கிள்","Box",2829,425],
+  [99,"5\" Fancy","5\" பேன்சி","Box",3998,600],
+  [100,"12 Shot Square","12 சாட் சதுரம்","Box",1328,200],
+  [101,"12 Shot Circle Colour Shot","12 சாட் வட்டம் கலர் சாட்","Box",1392,210],
+  [102,"12 Shot Raider","12 சாட் ரைடர்","Box",1298,195],
+  [103,"25 Shot Multicolour","25 சாட் (பச்சை & சிவப்பு க்ராக்லிங்)","Box",1900,250],
+  [104,"30 Shot Multicolour","30 சாட் (மல்டிகலர் பங்ஷன்)","Box",4000,600],
+  [105,"60 Shot Multicolour","60 சாட் (மல்டிகலர் பங்ஷன்)","Box",7000,1000],
+  [106,"120 Shot Multicolour","120 சாட் (மல்டிகலர் பங்ஷன்)","Box",15000,2000],
+  [107,"240 Shot Multicolour","240 சாட் (மல்டிகலர் பங்ஷன்)","Box",25270,4000]]},
+ {id:"c12", ta:"கம்பி மத்தாப்பு", en:"Sparklers", off:true, items:[
+  [107,"7Cm Electric Sparklers","7 செ.மீ சாதா","Box",73,11],
+  [108,"7Cm Colour Sparklers","7 செ.மீ கலர்","Box",88,13],
+  [109,"7Cm Green Sparklers","7 செ.மீ பச்சை","Box",110,16],
+  [110,"7Cm Red Sparklers","7 செ.மீ சிவப்பு","Box",113,17],
+  [111,"10Cm Electric Sparklers","10 செ.மீ சாதா","Box",135,19],
+  [112,"10Cm Colour Sparklers","10 செ.மீ கலர்","Box",133,20],
+  [113,"10Cm Green Sparklers","10 செ.மீ பச்சை","Box",143,21],
+  [114,"10Cm Red Sparklers","10 செ.மீ சிவப்பு","Box",153,23],
+  [115,"12Cm Electric Sparklers","12 செ.மீ சாதா","Box",203,30],
+  [116,"12Cm Colour Sparklers","12 செ.மீ கலர்","Box",228,34],
+  [117,"12Cm Green Sparklers","12 செ.மீ பச்சை","Box",243,36],
+  [118,"12Cm Red Sparklers","12 செ.மீ சிவப்பு","Box",268,40],
+  [119,"15Cm Electric Sparklers","15 செ.மீ சாதா","Box",280,42],
+  [120,"15Cm Colour Sparklers","15 செ.மீ கலர்","Box",300,45],
+  [121,"15Cm Green Sparklers","15 செ.மீ பச்சை","Box",355,55],
+  [122,"15Cm Red Sparklers","15 செ.மீ சிவப்பு","Box",400,60],
+  [123,"30Cm Electric Sparklers","30 செ.மீ சாதா","Box",280,42],
+  [124,"30Cm Colour Sparklers","30 செ.மீ கலர்","Box",300,45],
+  [125,"30Cm Green Sparklers","30 செ.மீ பச்சை","Box",355,55],
+  [126,"30Cm Red Sparklers","30 செ.மீ சிவப்பு","Box",400,60],
+  [127,"50Cm Electric Sparklers","50 செ.மீ சாதா","Box",985,160],
+  [128,"50Cm Colour Sparklers","50 செ.மீ கலர்","Box",1273,190],
+  [129,"70Cm Electric Sparklers","70 செ.மீ சாதா","Box",1333,200],
+  [130,"70Cm Colour Sparklers","70 செ.மீ கலர்","Box",1500,225],
+  [131,"Fire Fly Spinners","பயர் ப்ளே ஸ்பின்னார்","Box",1498,225]]},
+ {id:"c13", ta:"கலர் மேச்சஸ்", en:"Colour Matches", off:true, items:[
+  [132,"Mini Deluxe","மினி டீலக்ஸ்","Box",833,125],
+  [133,"Deluxe","ரெண்போ டீலக்ஸ்","Box",1163,175],
+  [134,"Roll Cap","ரோல் கேப்","Box",433,65],
+  [135,"Bambu Mathirai","பாம்பு மாத்திரை","Box",190,28],
+  [136,"Anakonda","அனகோண்டா","Box",833,125]]},
+ {id:"c14", ta:"மேலும் பொருட்கள்", en:"More Items", off:true, items:[
+  [144,"Mega Ultra Pencil","மெகா அல்ட்ரா பென்சில்","Box",530,80],
+  [145,"Emu Egg","ஈமு முட்டை","Box",1392,210],
+  [146,"Colour Smoke Stick (10 P)","கலர் ஸ்மோக் ஸ்டிக் (10 P)","Box",565,85]]},
+ {id:"c15", ta:"சரவெடிகள் (வாலா) – நெட் ரேட்", en:"Wala – net rate, no discount", off:false, items:[
+  ["W1","28 Shorsa","28 சோர்ஷா","Pkt",null,20],
+  ["W2","28 Gaint","28 ஜெயிண்ட்","Pkt",null,30],
+  ["W3","56 Gaint","56 ஜெயிண்ட்","Pkt",null,60],
+  ["W4","1000 Vala Silver","1000 வாலா சில்வர்","Box",null,180],
+  ["W5","1000 Vala Gold","1000 வாலா கோல்டு","Box",null,360],
+  ["W6","2000 Vala Silver","2000 வாலா சில்வர்","Box",null,360],
+  ["W7","2000 Vala Gold","2000 வாலா கோல்டு","Box",null,720],
+  ["W8","5000 Vala Silver","5000 வாலா சில்வர்","Box",null,900],
+  ["W9","5000 Vala Gold","5000 வாலா கோல்டு","Box",null,1800],
+  ["W10","10000 Vala Silver","10000 வாலா சில்வர்","Box",null,1800],
+  ["W11","10000 Vala Gold","10000 வாலா கோல்டு","Box",null,3600],
+  ["W12","100 Vala","100 வாலா","Box",null,60],
+  ["W13","200 Vala","200 வாலா","Box",null,120]]}
+];
+
+const $ = id => document.getElementById(id);
+const inr = n => "₹" + n.toLocaleString("en-IN");
+const unitTa = {Pkt:"1 பாக்கெட்", Bag:"1 பை", Box:"1 பாக்ஸ்"};
+const all = [];
+CATS.forEach(c => c.items.forEach(it => all.push({sl:it[0], en:it[1], ta:it[2], unit:it[3], mrp:it[4], price:it[5], cat:c})));
+all.forEach((p,i)=>p.k=i);
+const qty = new Array(all.length).fill(0);
+const saved = (()=>{try{return JSON.parse(localStorage.getItem("arp-qty")||"null")}catch(e){return null}})();
+if (saved && saved.length===qty.length) saved.forEach((v,i)=>qty[i]=Math.max(0,Math.min(999,v|0)));
+const persist = () => { try{localStorage.setItem("arp-qty",JSON.stringify(qty))}catch(e){} };
+
+/* build catalog */
+const cat = $("catalog"), chips = $("chips");
+CATS.forEach(c => {
+  const a = document.createElement("a"); a.href="#"+c.id; a.textContent=c.ta.split(" (")[0]; chips.appendChild(a);
+  const s = document.createElement("section"); s.className="cat"; s.dataset.cat=c.id;
+  s.innerHTML = `<h2 id="${c.id}">${c.ta}<small>${c.en}${c.off?" · 85% OFF":""}</small></h2><div class="list"></div>`;
+  const list = s.querySelector(".list");
+  all.filter(p=>p.cat===c).forEach(p => {
+    const r = document.createElement("div"); r.className="row"; r.dataset.k=p.k;
+    r.dataset.s = (p.sl+" "+p.en+" "+p.ta).toLowerCase();
+    r.innerHTML = `<div class="sl">${p.sl}</div>
+      <div class="nm"><b>${p.en}</b><span>${p.ta}</span>
+        <div class="pr">${p.mrp?`<del>${inr(p.mrp)}</del>`:""}<strong>${inr(p.price)}</strong> <span style="display:inline">/ ${unitTa[p.unit]}</span></div></div>
+      <div class="step" role="group" aria-label="${p.en} எண்ணிக்கை">
+        <button type="button" data-d="-1" aria-label="குறை">−</button>
+        <input type="number" min="0" max="999" inputmode="numeric" value="0" aria-label="எண்ணிக்கை">
+        <button type="button" data-d="1" aria-label="கூட்டு">+</button></div>
+      <div class="line"></div>`;
+    list.appendChild(r);
+  });
+  cat.appendChild(s);
+});
+const empty = document.createElement("div"); empty.className="empty"; empty.textContent="தேடலுக்குப் பொருத்தமான பொருட்கள் இல்லை."; empty.hidden=true; cat.appendChild(empty);
+
+function paintRow(r){
+  const k=+r.dataset.k, p=all[k], q=qty[k];
+  r.querySelector("input").value=q;
+  r.classList.toggle("has",q>0);
+  r.querySelector(".line").innerHTML = q>0 ? `${q} × ${inr(p.price)} = <b>${inr(q*p.price)}</b>` : "";
+}
+const rows = [...document.querySelectorAll(".row")];
+const rowOf = {}; rows.forEach(r=>rowOf[r.dataset.k]=r);
+
+function lines(){ return all.filter((p,i)=>qty[i]>0).map(p=>({p,q:qty[p.k]})); }
+function total(){ return lines().reduce((s,x)=>s+x.q*x.p.price,0); }
+
+function buildMsg(){
+  const L = lines(), T = total();
+  const g = id => $(id).value.trim();
+  let m = "வணக்கம், ARP ஸ்ரீ அண்ணாமலை பைரோ பார்க். என்னுடைய ஆர்டர் பட்டியல்:\n\n";
+  L.forEach((x,i)=>{ m += `${i+1}. [Sl.${x.p.sl}] ${x.p.en} – ${x.q} ${x.p.unit} × ${x.p.price} = ${x.q*x.p.price}\n`; });
+  m += `\nபொருட்களின் மொத்த தொகை: ₹${T.toLocaleString("en-IN")}\n(85% OFF விலை; வாலா நெட் ரேட். இறுதித் தொகை மற்றும் பணம் செலுத்தும் விவரங்களை உறுதிப்படுத்தவும்.)\n\n`;
+  m += `பெயர்: ${g("nm")}\nமொபைல்: ${g("ph")}\nஊர்/மாவட்டம்: ${g("ct")}`;
+  if (g("pin")) m += `\nபின்கோடு: ${g("pin")}`;
+  if (g("ad")) m += `\nமுகவரி: ${g("ad")}`;
+  if (g("nt")) m += `\nகுறிப்பு: ${g("nt")}`;
+  m += "\n(21 வயது மற்றும் அதற்கு மேற்பட்டவர்; தமிழ்நாட்டிற்குள் டெலிவரி)";
+  return m;
+}
+function problems(){
+  const e=[]; const g=id=>$(id).value.trim();
+  if(!lines().length) e.push("குறைந்தது ஒரு பொருளின் எண்ணிக்கையைத் தேர்வு செய்யுங்கள்.");
+  if(!g("nm")) e.push("பெயரை நிரப்புங்கள்.");
+  const dg=g("ph").replace(/\D/g,"");
+  if(!(dg.length===10 || (dg.length===12 && dg.startsWith("91")))) e.push("சரியான 10 இலக்க மொபைல் எண்ணை நிரப்புங்கள்.");
+  if(!g("ct")) e.push("ஊர் / மாவட்டத்தை நிரப்புங்கள்.");
+  if(g("pin") && !/^\d{6}$/.test(g("pin"))) e.push("பின்கோடு 6 இலக்கமாக இருக்க வேண்டும்.");
+  if(!$("age").checked) e.push("21 வயது மற்றும் தமிழ்நாட்டு டெலிவரி உறுதிப்படுத்தலைத் தேர்வு செய்யுங்கள்.");
+  return e;
+}
+let showErr=false;
+function refresh(){
+  const L=lines(), T=total(), n=L.length;
+  $("bcount").textContent = n+" பொருட்கள்";
+  $("btotal").textContent = inr(T);
+  $("sum").innerHTML = n ? `<b>தேர்வு செய்தவை</b><ul>${L.map(x=>`<li>[${x.p.sl}] ${x.p.en} – ${x.q} × ${inr(x.p.price)} = <b>${inr(x.q*x.p.price)}</b></li>`).join("")}</ul><div class="tot"><span>மொத்தம்</span><span>${inr(T)}</span></div>`
+    : "இன்னும் எந்தப் பொருளும் தேர்வு செய்யப்படவில்லை. மேலே உள்ள + பொத்தானை அழுத்தி எண்ணிக்கையைச் சேருங்கள்.";
+  const pr = problems();
+  const ok = pr.length===0;
+  const a = $("send");
+  a.setAttribute("aria-disabled", ok?"false":"true");
+  a.href = ok ? "https://wa.me/"+WA+"?text="+encodeURIComponent(buildMsg()) : "#";
+  $("err").textContent = (showErr && !ok) ? pr[0] : "";
+  persist();
+}
+function setQ(k,v){ qty[k]=Math.max(0,Math.min(999,v|0)); paintRow(rowOf[k]); refresh(); }
+
+cat.addEventListener("click",e=>{
+  const b=e.target.closest("button[data-d]"); if(!b) return;
+  const k=+b.closest(".row").dataset.k; setQ(k, qty[k]+(+b.dataset.d));
+});
+cat.addEventListener("input",e=>{
+  if(e.target.matches(".step input")){ const k=+e.target.closest(".row").dataset.k; qty[k]=Math.max(0,Math.min(999,parseInt(e.target.value||"0",10)||0)); rowOf[k].classList.toggle("has",qty[k]>0); rowOf[k].querySelector(".line").innerHTML = qty[k]>0?`${qty[k]} × ${inr(all[k].price)} = <b>${inr(qty[k]*all[k].price)}</b>`:""; refresh(); }
+});
+cat.addEventListener("change",e=>{ if(e.target.matches(".step input")){ const k=+e.target.closest(".row").dataset.k; paintRow(rowOf[k]); }});
+cat.addEventListener("focusin",e=>{ if(e.target.matches(".step input")) e.target.select(); });
+
+$("q").addEventListener("input",()=>{
+  const t=$("q").value.trim().toLowerCase(); let any=false;
+  rows.forEach(r=>{ const m=!t||r.dataset.s.includes(t); r.hidden=!m; if(m) any=true; });
+  document.querySelectorAll("section.cat").forEach(s=>{ s.hidden=![...s.querySelectorAll(".row")].some(r=>!r.hidden); });
+  empty.hidden=any;
+});
+["nm","ph","ct","pin","ad","nt","age"].forEach(id=>$(id).addEventListener("input",refresh));
+$("age").addEventListener("change",refresh);
+$("send").addEventListener("click",e=>{
+  const pr=problems();
+  if(pr.length){ e.preventDefault(); showErr=true; refresh(); $("err").scrollIntoView({block:"center"}); }
+});
+$("copy").addEventListener("click",async()=>{
+  showErr=true; const pr=problems(); refresh();
+  if(pr.length) return;
+  const m=buildMsg();
+  try{ await navigator.clipboard.writeText(m); $("err").style.color="var(--green)"; $("err").textContent="நகலெடுக்கப்பட்டது. WhatsApp-ல் 97886 73660 எண்ணுக்கு ஒட்டி அனுப்பலாம்."; }
+  catch(_){ $("err").textContent="நகலெடுக்க முடியவில்லை. WhatsApp பொத்தானைப் பயன்படுத்துங்கள்."; }
+  setTimeout(()=>{ $("err").style.color=""; },4000);
+});
+$("clear").addEventListener("click",()=>{ qty.fill(0); rows.forEach(paintRow); showErr=false; refresh(); });
+
+rows.forEach(paintRow); refresh();
+</script>
+
+</body></html>
